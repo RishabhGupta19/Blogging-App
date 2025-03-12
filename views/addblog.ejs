@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head")  %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog-App</title>
+</head>
+<body>
+    <%- include("./partials/script")  %>
+   
+    <%- include("./partials/nav")  %>
+    <div class="container mt-4">
+        <form action="/blog/blog" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="coverImage" class="form-label" style="font-family: Cambria, Cochin, Georgia, Times,">Cover Image</label>
+                <input type="file" class="form-control" id="coverImage" name = "coverImage" aria-describedby="title"></div>
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name = "title" aria-describedby="title"></div>
+              <div class="mb-3">
+                <label for="body">Body</label>
+                <div class="form-floating">
+                    
+                    <textarea class="form-control mt-2" placeholder="Start Writing" id="body" name="body"  style="height: 100px"></textarea>
+                    
+                  </div></div>
+                  <div class="form-floating">
+                    
+                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                    
+                  </div>
+                  
+                  </form>
+    
+    
+</body>
+</html>

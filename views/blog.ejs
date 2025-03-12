@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head")  %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <style>
+        /* Global Styles */
+        body {
+            overflow-x: hidden;
+            max-width: 100vw;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 90%;
+            margin: auto;
+            border: 2px solid black;
+            padding: 10px;
+        }
+
+        /* Responsive Image */
+        img {
+            width: 100%;  /* Makes the image responsive */
+            max-width: 600px; /* Prevents overly large images */
+            height: auto; /* Maintains aspect ratio */
+            display: block;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid black;
+            object-fit: cover; /* Crops excess but maintains focus */
+        }
+        
+
+        /* Blog Content */
+        .blog-content {
+            font-size: 20px;
+            text-align: justify;
+            max-width: 90%;
+            margin: auto;
+            
+        }
+
+        /* Code Block */
+        pre {
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+            max-width: 90%;
+            margin: auto;
+        }
+
+        code {
+            font-family: monospace;
+            color: #c7254e;
+            background-color: #f9f2f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        /* Profile Photo */
+        .profile-photo {
+            padding-top:20px;
+            margin-top: 30px;
+            width: 110px;
+            height: 140px;
+            border: 2px solid black;
+            border-radius: 10%;
+            object-fit: fill;
+            display: block;
+           /* margin-left: auto;
+            margin-right: auto;*/
+        }
+
+        
+
+        /* Center Title */
+        h1 {
+            font-size: 35px;
+            text-align: center;
+        }
+
+        /* Comments Section */
+.comments-section {
+    margin-top: 20px;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Comment List */
+.comment-list {
+    margin-top: 15px;
+}
+
+/* Comment Item */
+.comment {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+/* Profile Photo (Small) */
+.profile-photo1 {
+    width: 45px; /* Ensure it's square */
+    height: 45px;
+    border-radius: 50%; /* Makes it circular */
+    object-fit: fill; /* Prevents stretching */
+    border: 2px solid black;
+    margin-right: 10px; /* Space between image and text */
+    background-color: white; /* Fix transparency issues */}
+
+/* Comments Section */
+.comments-section {
+    margin-top: 20px;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Comment List */
+.comment-list {
+    margin-top: 15px;
+}
+
+/* Comment Item */
+.comment {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+/* Profile Photo (Small) */
+/* Fix Profile Photo Issues */
+.profile-photo1 {
+    padding: 5px;
+    
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Keep it square */
+    border-radius: 50%; /* Make it circular */
+    object-fit: contain; /* Ensures full image visibility */
+    border: 2px solid black;
+    flex-shrink: 0; /* Prevents image from shrinking */
+    background-color: #fff; /* Adds a background in case of transparency issues */
+}
+
+
+/* Comment Content */
+.comment-content {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.comment-content strong {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.comment-content p {
+    margin: 0;
+    font-size: 16px;
+    word-wrap: break-word;
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+    .comment {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .profile-photo1 {
+        width: 40px;
+        height: 40px;
+    }
+
+    .comment-content {
+        width: 100%;
+    }
+}
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                max-width: 95%;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .blog-content, pre {
+                font-size: 16px;
+            }
+
+            .profile-photo {
+                width: 80px;
+                height: 100px;
+            }
+
+            .profile-photo1 {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include("./partials/script")  %>
+    <%- include("./partials/navblog")  %>
+
+    <!-- Blog Title -->
+    <div class="container mt-3">
+        <h1><%= blog1.title %></h1>
+    </div>
+
+    <!-- Cover Image -->
+    <div class="container">
+        <img src="<%= blog1.coverImage %>" alt="Cover Image">
+    </div>
+
+    <!-- Blog Content -->
+    <div class="container blog-content">
+        <pre><code><%= blog1.body %></code></pre>
+    </div>
+
+    <!-- Author Profile -->
+    <div class="container">
+        <img src="<%= blog1.createdBy.profilePhoto %>" class="profile-photo">
+        <pre style="text-align: center;"><%= blog1.createdBy.fullName %></pre>
+
+        <% if (user && user.id && blog1.createdBy && user.id === blog1.createdBy.id) { %>
+            <form action="/updates/edit/<%= blog1.id %>" method="get" style="text-align: center;">
+                <button type="submit" class="btn btn-danger">Edit Blog</button>
+            </form>
+        <% } %>
+    </div>
+
+    <!-- Comments Section -->
+  <!-- Comments Section -->
+<div class="container comments-section">
+    <h1>Comments (<%= comments.length %>)</h1>
+
+    <% if (locals.user) { %>
+        <form action="/blog/Comment/<%= blog1.id %>" method="post">
+            <input type="text" class="form-control" name="content" placeholder="Enter your comment">
+            <button type="submit" class="btn btn-primary mt-3">Share</button>
+        </form>
+    <% } %>
+
+    <div class="comment-list">
+        <% comments.forEach(comment => { %>
+            <div class="comment">
+                <!-- User Profile Picture -->
+                <% if (comment.createdBy.profilePhoto) { %>
+                    <img src="<%= comment.createdBy.profilePhoto %>" class="profile-photo1" alt="User Photo">
+                <% }  %>
+                
+                <div class="comment-content">
+                    <strong><%= comment.createdBy.fullName %></strong>
+                    <p><%= comment.content %></p>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+
+
+
+</body>
+</html>

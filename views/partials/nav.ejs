@@ -1,0 +1,60 @@
+<style>
+  .profile-photo1 {
+   /* margin-top: 50px;*/
+    margin-left: 30px;
+    margin-right: 10px;
+    width: 40px;  
+    height: 40px; 
+    border-radius: 30%; 
+    object-fit: fill ; 
+}
+</style>
+<nav  class="navbar navbar-expand-lg bg-body-tertiary " data-bs-theme="dark" >
+    <div  class="container-fluid">
+      <a class="navbar-brand" href="/">Daily-Drift</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+            
+            <% if (!locals.user) { %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Create Account
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/user/signup">SignUp</a></li>
+                </ul>
+              </li>
+            <% } %>
+
+          </li>
+          <% if (locals.user) { %>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/blog/addblog">Add Blog</a>
+            
+            </li>
+            <div style="display:inline-flex">
+              <img src="<%= locals.user.profilePhoto %>" class="profile-photo1">
+           </div>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                 <%= locals.user.username %>  
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/user/logout">Log Out</a></li>
+                <li><a class="dropdown-item" href="/updates/profile">Update ProfilePhoto</a></li>
+          <% } %>
+         
+         
+         
+            
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

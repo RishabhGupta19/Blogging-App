@@ -1,0 +1,92 @@
+<style>
+    /* General Page Layout */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 12px;
+    max-width: 400px;
+    margin: 50px auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styling */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+/* File Input Styling */
+.file-label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.file-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    cursor: pointer;
+}
+
+/* Upload Button */
+.upload-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.upload-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Profile Image Styling */
+.profile-image-container {
+    margin-top: 20px;
+    border: 2px solid black;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid black;
+    transition: transform 0.3s ease-in-out;
+}
+
+.profile-photo:hover {
+    transform: scale(1.1);
+}
+
+</style>
+
+<div class="profile-container">
+    <h2>Update Profile Photo</h2>
+    <form action="/updates/update-profile-photo" method="POST" enctype="multipart/form-data" class="profile-form">
+        <label for="profilePhoto" class="file-label">Choose a new profile photo:</label>
+        <input type="file" name="profilePhoto" id="profilePhoto" class="file-input" >
+        <button type="submit" class="upload-btn">Upload</button>
+        
+    </form>
+    <a href="/" class="upload-btn"><button>Home</button></a>
+
+    <!-- Display Updated Profile Photo -->
+    <div class="profile-image-container">
+        <img src="<%= user.profilePhoto %>" alt="Profile Photo" class="profile-photo">
+    </div>
+</div>
