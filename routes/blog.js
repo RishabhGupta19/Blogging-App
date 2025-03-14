@@ -48,8 +48,7 @@ router.post('/delete/:id', async (req, res) => {
 
 router.post('/blog',upload.single('coverImage') ,async(req, res) => {
     const {title,body}=req.body;
-    console.log(req.user.id);
-    console.log(req.file.filename);
+    
    const Blog = await blog.create({
       body,
       title,
