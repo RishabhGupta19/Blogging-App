@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express');
 const path = require("path");
 const app = express();
+const favicon = require('serve-favicon');
 const PORT = process.env.PORT || 3000;
 const userroutes = require('./routes/user');
 const blogRoute = require('./routes/blog');
@@ -19,7 +20,7 @@ app.set('views', path.resolve("./views"));
 mongoose.connect(process.env.MONGO_URL).then(e => {
     console.log("Connected to database");
 });
-
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(cookiparser());
 app.use(checkAuthenticationCookie("token"));
 app.use(express.urlencoded({extended: false}));
