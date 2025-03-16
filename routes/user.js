@@ -1,67 +1,83 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const User = require('../models/user');
 const multer = require('multer');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
 const router = Router();
+require('dotenv').config();
 
+// Cloudinary Configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+});
+
+// Multer Configuration
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.resolve(`./public/Images`)); 
-    },
-    filename: function (req, file, cb) {
-        const filename = `${Date.now()}-${file.originalname}`;
-        cb(null, filename);
-    },
+  destination: (req, file, cb) => {
+    cb(null, path.resolve(`./public/Images`));
+  },
+  filename: function (req, file, cb) {
+    const filename = `${Date.now()}-${file.originalname}`;
+    cb(null, filename);
+  }
 });
-const upload = multer({ storage:storage });
 
+const upload = multer({ storage: storage });
 
-
+// Route to Sign In Page
 router.get('/signin', (req, res) => {
-    res.render("signin");
+  res.render("signin");
 });
 
+// Route to Sign Up Page
 router.get('/signup', (req, res) => {
-    res.render("signup");
+  res.render("signup");
 });
 
+// Route to Handle Sign In
 router.post('/signin', async (req, res) => {
-    try{const {email, password} = req.body;
+  try {
+    const { email, password } = req.body;
     const token = await User.matchpassword(email, password);
-    
-    return res.cookie("token",token).redirect('/');}
-    catch(error){
-        
-       return res.render("signin",{error: "Invalid Email or Password",} );
-    }
+    return res.cookie("token", token).redirect('/');
+  } catch (error) {
+    return res.render("signin", { error: "Invalid Email or Password" });
+  }
 });
+
+// Route to Handle Logout
 router.get('/logout', (req, res) => {
-    res.clearCookie("token").render("signin");
+  res.clearCookie("token").render("signin");
 });
 
+// Route to Handle Sign Up with Cloudinary
 router.post('/signup', upload.single('profilePhoto'), async (req, res) => {
-    try {
-        const { fullName, email, password } = req.body;
+  try {
+    const { fullName, email, password } = req.body;
 
-        // Check if all fields are filled
-        if (!fullName || !email || !password) {
-            return res.status(400).send("All fields are required.");
-        }
-
-        // Set profile photo path
-        const profilePhoto = req.file ? `/Images/${req.file.filename}` : "/Images/Profile.jpg";
-        console.log(req.file);
-        console.log(profilePhoto);
-        // Create user
-        await User.create({ fullName, email, password, profilePhoto });
-
-        res.redirect('signin');  // Redirect after successful signup
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error signing up');
+    // Check if all fields are filled
+    if (!fullName || !email || !password) {
+      return res.status(400).send("All fields are required.");
     }
+
+    // Upload profile photo to Cloudinary
+    let profilePhoto = "/Images/Profile.jpg"; // Default profile picture
+
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      profilePhoto = result.secure_url;
+    }
+
+    // Create user
+    await User.create({ fullName, email, password, profilePhoto });
+
+    res.redirect('signin');  // Redirect after successful signup
+  } catch (error) {
+    console.error("Error signing up:", error);
+    res.status(500).send('Error signing up');
+  }
 });
-
-
 
 module.exports = router;
