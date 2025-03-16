@@ -57,23 +57,23 @@ router.post('/signup', upload.single('profilePhoto'), async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
 
-    // Check if all fields are filled
+  
     if (!fullName || !email || !password) {
       return res.status(400).send("All fields are required.");
     }
 
-    // Upload profile photo to Cloudinary
-    let profilePhoto = "/Images/Profile.jpg"; // Default profile picture
+  
+    let profilePhoto = "/Images/Profile.jpg"; 
 
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path);
       profilePhoto = result.secure_url;
     }
 
-    // Create user
+   
     await User.create({ fullName, email, password, profilePhoto });
 
-    res.redirect('signin');  // Redirect after successful signup
+    res.redirect('signin'); 
   } catch (error) {
     console.error("Error signing up:", error);
     res.status(500).send('Error signing up');
