@@ -38,21 +38,13 @@ router.get('/signup', (req, res) => {
 
 // Route to Handle Sign In
 router.post('/signin', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const token = await User.matchpassword(email, password);
-
-        // Set the cookie with `httpOnly` and `maxAge` for persistent login
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,   
-            maxAge: 7 * 24 * 60 * 60 * 1000  // Expires in 7 days
-        });
-
-        return res.redirect('/');
-    } catch (error) {
-        return res.render("signin", { error: "Invalid Email or Password" });
-    }
+  try {
+    const { email, password } = req.body;
+    const token = await User.matchpassword(email, password);
+    return res.cookie("token", token).redirect('/');
+  } catch (error) {
+    return res.render("signin", { error: "Invalid Email or Password" });
+  }
 });
 
 
