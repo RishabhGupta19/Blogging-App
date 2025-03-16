@@ -39,7 +39,7 @@ router.post('/update-profile-photo', upload.single('profilePhoto'), async (req, 
 
    
     await User.findByIdAndUpdate(req.user.id, { profilePhoto: result.secure_url });
-    console.log(result.secure_url);
+   
     res.redirect('/'); 
   } catch (error) {
     console.error(error);
