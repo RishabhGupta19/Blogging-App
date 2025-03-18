@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="https://res.cloudinary.com/dnm9w3upk/image/upload/v1742154628/favicon_q1zhvh.ico" type="image/x-icon">
     <%- include("./partials/head") %>
-<link rel="icon" href="https://res.cloudinary.com/dnm9w3upk/image/upload/v1742154628/favicon_q1zhvh.ico" type="image/x-icon">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily-drift</title>
+    <title>Blog-App</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            background-color: #eef1f5;
             margin: 0;
             padding: 0;
         }
@@ -18,88 +17,87 @@
         .container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center; /* Centering content */
-            gap: 25px; /* Spacing between cards */
-            padding: 20px;
-            max-width: 1200px;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px;
+            max-width: 1300px;
             margin: auto;
         }
 
         .card {
-            flex: 1 1 calc(25% - 30px); /* 4 per row */
-            max-width: 280px;
-            min-width: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(25% - 30px);
+            max-width: 300px;
+            min-width: 260px;
+            background: linear-gradient(135deg, #ffffff, #f9f9f9);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
-            height: 100%;
-            padding-bottom: 15px;
-            transition: transform 0.3s ease-in-out;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .card img {
-            padding:5px;
             width: 100%;
-            height: 180px;
-            object-fit: cover; /* Ensures proper image filling */
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+            height: 200px;
+            object-fit: cover;
         }
 
         .card-body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            flex-grow: 1;
-            width: 100%;
+            padding: 20px;
         }
 
         .card-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
         }
 
         .button-group {
             display: flex;
-            gap: 10px; /* Space between buttons */
             justify-content: center;
-            width: 100%;
+            gap: 12px;
         }
 
         .btn-primary, .btn-danger {
-            width: 100px;
-            text-align: center;
-            border-radius: 5px;
-            padding: 8px 0;
+            width: 110px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc3545;
+            color: #fff;
         }
 
         /* Responsive Fixes */
         @media (max-width: 1024px) {
             .card {
-                flex: 1 1 calc(33.33% - 30px); /* 3 per row */
+                flex: 1 1 calc(33.33% - 30px);
             }
         }
 
         @media (max-width: 768px) {
             .card {
-                flex: 1 1 calc(50% - 30px); /* 2 per row */
+                flex: 1 1 calc(50% - 30px);
             }
         }
 
         @media (max-width: 480px) {
             .card {
-                flex: 1 1 100%; /* 1 per row */
+                flex: 1 1 100%;
             }
         }
     </style>
@@ -114,7 +112,6 @@
                 <img src="<%= blog.coverImage %>" alt="Blog Cover Image">
                 <div class="card-body">
                     <h5 class="card-title"><%= blog.title %></h5>
-                    
                     <div class="button-group">
                         <a href="/blog/<%= blog.id %>" class="btn btn-primary">View</a>
                         <% if (user && user.id && blog.createdBy && user.id === blog.createdBy.id) { %>
