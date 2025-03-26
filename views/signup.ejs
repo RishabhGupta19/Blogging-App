@@ -5,11 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignUp</title>
+    <style>
+            .alert {
+        color: #fff;
+        background-color: #ff4d4d;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-top: 30px;
+        font-size: 16px;
+        <style>
 </head>
 <body>
     <%- include("./partials/script")  %>
      <%- include("./partials/navsign")  %> 
     <form action="/user/signup" method="post" enctype="multipart/form-data">
+        <% if (error) { %>
+        <div class="alert">
+            <%= error %>
+        </div>
+    <% } %>
       <div style="padding:15px">
         <div class="mb-3 mt-4 ml-6 mr-6" >
           <label for="fullName" class="form-label">Full Name</label>
