@@ -33,7 +33,7 @@ router.get('/signin', (req, res) => {
 
 // Route to Sign Up Page
 router.get('/signup', (req, res) => {
-  res.render("signup");
+  res.render("signup",{error:null});
 });
 
 // Route to Handle Sign In
@@ -77,7 +77,7 @@ router.post('/signup', upload.single('profilePhoto'), async (req, res) => {
     res.redirect('signin'); 
   } catch (error) {
     console.error("Error signing up:", error);
-    res.status(500).send('Error signing up');
+    return res.render("signup", { error: "User Already Exist. Please try logging in." });
   }
 });
 
