@@ -1,4 +1,4 @@
-Blogging App
+Blogging App 
 Welcome to the Blogging App! This project is a full-stack web application that allows users to create, edit, and delete blog posts. Built using Node.js, Express, MongoDB, and EJS, it provides a seamless experience for managing personal or professional blogs.
 
 Features
@@ -16,26 +16,50 @@ Installation
 Clone the repository:
 
 git clone https://github.com/RishabhGupta19/Blogging-App.git
+
+
 Navigate to the project directory:
 
 
 cd Blogging-App
+
+
 Install dependencies:
 
 npm install
+
+
 Set up environment variables:
+
+
 
 Create a .env file in the root directory and add the following:
 
+
+
 PORT=3000
+
+
 MONGODB_URI=your_mongodb_connection_string
+
+
 SESSION_SECRET=your_session_secret
 
+
+
 Start the application:
+
+
 npm start
+
+
 Access the app:
 
+
+
 Open your browser and go to http://localhost:3000.
+
+
 
 Usage
 Register: Create a new account.
