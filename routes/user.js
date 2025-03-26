@@ -28,7 +28,7 @@ const upload = multer({ storage: storage });
 
 // Route to Sign In Page
 router.get('/signin', (req, res) => {
-  res.render("signin");
+  res.render("signin",{error:null});
 });
 
 // Route to Sign Up Page
@@ -50,7 +50,7 @@ router.post('/signin', async (req, res) => {
 
 // Route to Handle Logout
 router.get('/logout', (req, res) => {
-  res.clearCookie("token").render("signin");
+  res.clearCookie("token").redirect("/user/signin");
 });
 
 // Route to Handle Sign Up with Cloudinary
