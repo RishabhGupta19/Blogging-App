@@ -6,98 +6,303 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily-drift</title>
-    <style>
+   <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #eef1f5;
+            background: linear-gradient(-45deg, #0f0f23, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(34, 197, 94, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
-            padding: 40px;
-            max-width: 1300px;
+            gap: 40px;
+            padding: 60px 20px;
+            max-width: 1400px;
             margin: auto;
+            position: relative;
         }
 
         .card {
-            flex: 1 1 calc(25% - 30px);
-            max-width: 300px;
-            min-width: 260px;
-            background: linear-gradient(135deg, #ffffff, #f9f9f9);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(25% - 40px);
+            max-width: 320px;
+            min-width: 280px;
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4),
+                        0 5px 15px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
             text-align: center;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            animation: slideIn 0.6s ease forwards, float 6s ease-in-out infinite;
+            animation-delay: calc(var(--delay, 0) * 0.1s);
+        }
+
+        .card:nth-child(1) { --delay: 1; }
+        .card:nth-child(2) { --delay: 2; }
+        .card:nth-child(3) { --delay: 3; }
+        .card:nth-child(4) { --delay: 4; }
+        .card:nth-child(5) { --delay: 5; }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(255, 255, 255, 0.1) 50%, 
+                transparent 70%);
+            background-size: 200% 200%;
+            animation: shimmer 3s infinite;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card::after {
+            content: '✨';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+            animation: sparkle 2s infinite;
+            z-index: 2;
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6),
+                        0 15px 25px rgba(59, 130, 246, 0.2),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+            animation-play-state: paused;
+        }
+
+        .card:hover::before {
+            opacity: 1;
         }
 
         .card img {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
+            transition: all 0.5s ease;
+            filter: brightness(1.1) contrast(1.1) saturate(1.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+            filter: brightness(1.3) contrast(1.2) saturate(1.4);
         }
 
         .card-body {
-            padding: 20px;
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(10px);
         }
 
         .card-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #06d6a0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover .card-title {
+            transform: scale(1.1);
+            text-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
         }
 
         .button-group {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 15px;
         }
 
         .btn-primary, .btn-danger {
-            width: 110px;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            transition: 0.3s ease;
+            width: 120px;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            color: white;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-primary::before, .btn-danger::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-primary:hover, .btn-danger:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary:hover::before, .btn-danger:hover::before {
+            left: 100%;
         }
 
         .btn-primary:hover {
-            background-color: #007bff;
-            color: #fff;
+            background: linear-gradient(45deg, #2563eb, #1e40af);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.6);
         }
 
         .btn-danger:hover {
-            background-color: #dc3545;
-            color: #fff;
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            box-shadow: 0 15px 30px rgba(239, 68, 68, 0.6);
         }
 
-        /* Responsive Fixes */
+        .btn-primary:active, .btn-danger:active {
+            transform: translateY(-1px) scale(1.02);
+            transition: all 0.1s ease;
+        }
+
+        /* Responsive Fixes with Enhanced Animations */
         @media (max-width: 1024px) {
             .card {
-                flex: 1 1 calc(33.33% - 30px);
+                flex: 1 1 calc(33.33% - 40px);
+                animation-duration: 7s;
             }
         }
 
         @media (max-width: 768px) {
             .card {
-                flex: 1 1 calc(50% - 30px);
+                flex: 1 1 calc(50% - 40px);
+                animation-duration: 8s;
+            }
+            
+            .container {
+                gap: 30px;
+                padding: 40px 15px;
             }
         }
 
         @media (max-width: 480px) {
             .card {
                 flex: 1 1 100%;
+                max-width: none;
+                animation-duration: 9s;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-primary, .btn-danger {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .card {
+                animation: slideIn 0.6s ease forwards;
+            }
+            
+            .card:hover {
+                animation: none;
+            }
+            
+            body {
+                animation: none;
             }
         }
     </style>
