@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const User = require('../models/user');
+const User1 = require('../models/User1');
 const Blog = require('../models/blog');
 const multer = require('multer');
 const path = require('path');
@@ -38,7 +38,7 @@ router.post('/update-profile-photo', upload.single('profilePhoto'), async (req, 
     const result = await cloudinary.uploader.upload(req.file.path);
 
    
-    await User.findByIdAndUpdate(req.user.id, { profilePhoto: result.secure_url });
+    await User1.findByIdAndUpdate(req.User1.id, { profilePhoto: result.secure_url });
    
     res.redirect('/'); 
   } catch (error) {
@@ -51,17 +51,17 @@ router.post('/update-profile-photo', upload.single('profilePhoto'), async (req, 
 router.get('/profile', async (req, res) => {
  
 
-  if (!req.user) {
-    return res.status(401).send("Unauthorized: No user found.");
+  if (!req.User1) {
+    return res.status(401).send("Unauthorized: No User1 found.");
   }
 
   try {
-    const user = await User.findById(req.user.id);
-    if (!user) {
-      return res.status(404).send("User not found.");
+    const User1 = await User1.findById(req.User1.id);
+    if (!User1) {
+      return res.status(404).send("User1 not found.");
     }
 
-    res.render('profile', { user });
+    res.render('profile', { User });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -74,7 +74,7 @@ router.get('/edit/:id', async (req, res) => {
   try {
     console.log(req.params.id);
     const blog = await Blog.findById(req.params.id);
-    if (!blog || blog.createdBy.toString() !== req.user.id) {
+    if (!blog || blog.createdBy.toString() !== req.User1.id) {
       return res.status(403).send("Unauthorized to edit this blog.");
     }
     res.render('editBlog', { blog });
