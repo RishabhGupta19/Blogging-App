@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const User = require('../models/user');
+const User1 = require('../models/User1');
 const multer = require('multer');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
@@ -40,7 +40,7 @@ router.get('/signup', (req, res) => {
 router.post('/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
-    const token = await User.matchpassword(email, password);
+    const token = await User1.matchpassword(email, password);
     return res.cookie("token", token).redirect('/');
   } catch (error) {
     return res.render("signin", { error: "Invalid Email or Password" });
@@ -50,7 +50,7 @@ router.post('/signin', async (req, res) => {
 
 // Route to Handle Logout
 router.get('/logout', (req, res) => {
-  res.clearCookie("token").redirect("/user/signin");
+  res.clearCookie("token").redirect("/User/signin");
 });
 
 // Route to Handle Sign Up with Cloudinary
@@ -72,7 +72,7 @@ router.post('/signup', upload.single('profilePhoto'), async (req, res) => {
     }
 
    
-    await User.create({ fullName, email, password, profilePhoto });
+    await User1.create({ fullName, email, password, profilePhoto });
 
     res.redirect('signin'); 
   } catch (error) {
