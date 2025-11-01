@@ -30,7 +30,7 @@ app.use(express.static(path.resolve('./public')));
 
 app.get('/', async (req, res) => {
   try {
-    const allblogs = await blog.find({}).populate("createdBy"); // Populate user info
+    const allblogs = await blog.find({}); // Populate user info
     res.render("home", { user: req.user || null, blogs: allblogs });
   } catch (error) {
     console.error(error);
