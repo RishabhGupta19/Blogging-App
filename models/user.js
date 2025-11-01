@@ -61,5 +61,5 @@ userSchema.static("matchpassword", async function(email,password){
     
 });
 
-const User1 = model("User", userSchema);
+const User1 = model("User1", userSchema);
 module.exports = User1;
