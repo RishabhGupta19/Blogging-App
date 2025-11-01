@@ -11,7 +11,7 @@ const commentSchema = new Schema({
   },
     createdBy:{
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'User1',
       
     },
 }, {timestamps: true});
